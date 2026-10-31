@@ -30,3 +30,10 @@ The trade-off: it holds nothing open and buffers one directory's listing at a ti
 
 - `walk(root, *, prune=None) -> Iterator[DirEntry]`
 - `DirEntry` — frozen dataclass with fields `path`, `name`, `is_dir`, `is_file`, `is_symlink`, and a `kind` property returning `"dir"`, `"file"`, or `"link"`.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
